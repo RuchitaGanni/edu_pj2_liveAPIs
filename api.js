@@ -4,8 +4,8 @@ var dotenv = require('dotenv');
 var mongo = require('mongodb');
 var MongoClient = mongo.MongoClient;
 dotenv.config();
-var mongoUrl = process.env.MongoLiveUrl;
-
+//var mongoUrl = process.env.MongoLiveUrl;
+var mongoUrl="mongodb+srv://ruchita:ruchita123@cluster0.2ssc4.mongodb.net/project2?retryWrites=true&w=majority";
 var port = process.env.PORT || 8124;
 
 var bodyparse=require('body-parser');
@@ -25,6 +25,10 @@ app.use(bodyparse.json())
 
 
 // creating routes
+
+app.get('/',(req,res)=>{
+    res.send("welcome ruchita");
+})
 
 //1.get deliversble locations
 app.get('/locations', (req, res) => {
@@ -91,15 +95,15 @@ app.delete('/deleteOrder/:user',(req, res) => {
 })
 
  //mealtypes using projections
- app.get('/getMealtypes',(req,res)=>{
-    // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
-    db.collection('mealtypes').find({},{projection:{mealtype:1,content:1,_id:0}}).toArray((err,result) => {
-        if(err) throw err;
-        // console.log(result);
-        res.send(result)
-    })
+//  app.get('/getMealtypes',(req,res)=>{
+//     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
+//     db.collection('mealtypes').find({},{projection:{mealtype:1,content:1,_id:0}}).toArray((err,result) => {
+//         if(err) throw err;
+//         // console.log(result);
+//         res.send(result)
+//     })
 
-})
+// })
 
 
 
