@@ -116,7 +116,7 @@ app.listen(port,()=>{
 //connection with mongodb
 MongoClient.connect(mongoUrl, (err,client) => {
     if(err) console.log("Error While Connecting");
-    db = client.db('edureka');  //db name  //change db name here when connecting with atlas db
+    db = client.db('project2');  //db name  //change db name here when connecting with atlas db
     app.listen(port,()=>{
         console.log(`listening on port ${port}`)
     })
