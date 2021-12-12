@@ -6,7 +6,7 @@ var MongoClient = mongo.MongoClient;
 dotenv.config();
 //var mongoUrl = process.env.MongoLiveUrl;
 var mongoUrl="mongodb+srv://ruchita:ruchita123@cluster0.2ssc4.mongodb.net/project2?retryWrites=true&w=majority";
-var port = process.env.PORT || 8124;
+var port = process.env.PORT || 8122;
 
 var bodyparse=require('body-parser');
 
