@@ -10,7 +10,7 @@ var mongoUrl="mongodb+srv://ruchita:ruchita123@cluster0.2ssc4.mongodb.net/projec
 var port = process.env.PORT || 8122;
 
 var bodyparse=require('body-parser');
-app.use(cors());
+
 // save the database connection
 var db;
 
@@ -19,7 +19,7 @@ var db;
 
 // creating object of express. because express have method to use
 const app = exp();
-
+app.use(cors());
 //using body parser to read inputs from post
 app.use(bodyparse.urlencoded({ extended: true }))
 app.use(bodyparse.json())
