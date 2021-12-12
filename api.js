@@ -2,6 +2,7 @@ var exp = require('express');
 
 var dotenv = require('dotenv');
 var mongo = require('mongodb');
+var cors = require('cors');
 var MongoClient = mongo.MongoClient;
 dotenv.config();
 //var mongoUrl = process.env.MongoLiveUrl;
@@ -9,7 +10,7 @@ var mongoUrl="mongodb+srv://ruchita:ruchita123@cluster0.2ssc4.mongodb.net/projec
 var port = process.env.PORT || 8122;
 
 var bodyparse=require('body-parser');
-
+app.use(cors());
 // save the database connection
 var db;
 
