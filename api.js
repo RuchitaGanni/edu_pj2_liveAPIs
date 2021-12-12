@@ -109,6 +109,15 @@ app.delete('/deleteOrder/:user',(req, res) => {
     })
 })
 
+//7. get orders in cart
+app.get('/getOrders', (req, res) => {
+    db.collection('orders').find().sort({id:1}).toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+  })
+
+
  //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
 //     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
@@ -127,6 +136,20 @@ app.listen(port,()=>{
     console.log(`listening on port ${port}`);
 })
 */
+
+
+app.put('/updateCats',(req,res) => {
+   
+    db.collection('category').updateOne(
+        {user:id},
+        {
+            $set:{
+                "status":status
+            }
+        }
+    )
+    res.send('order status updated')
+})
 
 //connection with mongodb
 MongoClient.connect(mongoUrl, (err,client) => {
