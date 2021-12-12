@@ -109,9 +109,9 @@ app.delete('/deleteOrder/:user',(req, res) => {
     })
 })
 
-//7. get orders in cart
+//7. get items in cart
 app.get('/getOrders', (req, res) => {
-    db.collection('orders').find().sort({id:1}).toArray((err,result) => {
+    db.collection('orders').find({status:0}).sort({id:1}).toArray((err,result) => {
         if(err) throw err;
         res.send(result)
     })
