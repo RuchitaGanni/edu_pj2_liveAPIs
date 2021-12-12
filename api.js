@@ -50,6 +50,20 @@ app.get('/category', (req, res) => {
     })
   })
 
+
+  //list of products against categories
+
+  app.get('/products',(req,res)=>{
+    var query = {};
+    if(req.query.category_id){
+        query={category_id:Number(req.query.category_id)}
+    }
+    db.collection('products').find(query).toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+  })
+
 //3.get main categories
 app.get('/sub_category/:main_category_id', (req, res) => {
     var main_cid=Number(req.params.main_category_id);
