@@ -112,7 +112,13 @@ app.delete('/deleteOrder/:user',(req, res) => {
 
 //7. get items in cart
 app.get('/getOrders', (req, res) => {
-    db.collection('orders').find({status:0}).sort({id:1}).toArray((err,result) => {
+    var query = {};
+    if(req.query.product_id){
+        query={product_id:Number(req.query.product_id),status:0}
+    }else{
+        query={status:0}
+    }
+    db.collection('orders').find(query).sort({id:1}).toArray((err,result) => {
         if(err) throw err;
         res.send(result)
     })
