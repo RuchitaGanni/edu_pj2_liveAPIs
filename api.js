@@ -85,14 +85,15 @@ app.post('/saveOrder',(req,res)=>{
 })
 
 //5.update orders
-app.put('/updateStatus/:user_id',(req,res) => {
-    var id = Number(req.params.user_id);
-    var status = req.body.status?req.body.status:"Pending"
+app.put('/updateStatus',(req,res) => {
+   //console.log(req.body.product_id,'bbb');
+    var product_id =req.body.product_id; //Number(req.params.user_id);
+    var quantity=req.body.quantity;// req.body.status?req.body.status:"Pending"
     db.collection('orders').updateOne(
-        {user:id},
+        {product_id:product_id,status:0},
         {
             $set:{
-                "status":status
+                "quantity":quantity
             }
         }
     )
