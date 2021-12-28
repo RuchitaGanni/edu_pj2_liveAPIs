@@ -110,7 +110,7 @@ app.delete('/deleteOrder/:product_id',(req, res) => {
     })
 })
 
-//7. get items in cart
+//7. get items in cart list table
 app.get('/getOrders', (req, res) => {
     var query = {};
     if(req.query.product_id){
@@ -118,7 +118,7 @@ app.get('/getOrders', (req, res) => {
     }else{
         query={status:0}
     }
-    db.collection('orders').find(query).sort({id:1}).toArray((err,result) => {
+    db.collection('cart_list').find(query).sort({id:1}).toArray((err,result) => {
         if(err) throw err;
         res.send(result)
     })
