@@ -125,6 +125,14 @@ app.get('/getOrders', (req, res) => {
   })
 
 
+  //add item to cart
+
+  app.post('/addToCart',(req,res)=>{
+    db.collection('cart_list').insertOne(req.body,(err,result)=>{
+        if(err) throw err;
+        res.send("item added to cart");
+    })
+})
  //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
 //     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
