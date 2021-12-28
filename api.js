@@ -100,12 +100,12 @@ app.put('/updateStatus',(req,res) => {
     res.send('order status updated')
 })
 
-//6.delete order
+//6.delete order items from list against product_id
 ///db.products.remove( { qty: { $gt: 20 } }, true )
-app.delete('/deleteOrder/:user',(req, res) => {
-    var id = Number(req.params.user);
-    db.collection('orders').deleteOne({user:id},(err,result) => {
-        if(err) throw "err"+err;
+app.delete('/deleteOrder/:product_id',(req, res) => {
+    var productId = Number(req.params.product_id);
+    db.collection('orders').deleteOne({product_id:productId},(err,result) => {
+        if(err) throw "error"+err;
         res.send(result)
     })
 })
