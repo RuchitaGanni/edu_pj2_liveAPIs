@@ -89,7 +89,7 @@ app.put('/updateStatus',(req,res) => {
    //console.log(req.body.product_id,'bbb');
     var product_id =req.body.product_id; //Number(req.params.user_id);
     var quantity=req.body.quantity;// req.body.status?req.body.status:"Pending"
-    db.collection('orders').updateOne(
+    db.collection('cart_list').updateOne(
         {product_id:product_id,status:0},
         {
             $set:{
@@ -104,7 +104,7 @@ app.put('/updateStatus',(req,res) => {
 ///db.products.remove( { qty: { $gt: 20 } }, true )
 app.delete('/deleteOrder/:product_id',(req, res) => {
     var productId = Number(req.params.product_id);
-    db.collection('orders').deleteOne({product_id:productId},(err,result) => {
+    db.collection('cart_list').deleteOne({product_id:productId},(err,result) => {
         if(err) throw "error"+err;
         res.send(result)
     })
