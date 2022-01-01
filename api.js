@@ -84,7 +84,7 @@ app.post('/saveOrder',(req,res)=>{
     })
 })
 
-//5.update orders
+//5.update cartitem qty
 app.put('/updateStatus',(req,res) => {
    //console.log(req.body.product_id,'bbb');
     var product_id =req.body.product_id; //Number(req.params.user_id);
@@ -133,6 +133,23 @@ app.get('/getOrders', (req, res) => {
         res.send("item added to cart");
     })
 })
+
+
+app.put('/updateItemStatus',(req,res) => {
+    //console.log(req.body.product_id,'bbb');
+     var product_id =req.body.product_id; //Number(req.params.user_id);
+     var quantity=req.body.quantity;// req.body.status?req.body.status:"Pending"
+     db.collection('cart_list').updateOne(
+         {product_id:product_id,status:0},
+         {
+             $set:{
+                 "status":1,
+                 "order_id":1111
+             }
+         }
+     )
+     res.send('order status updated')
+ })
  //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
 //     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
