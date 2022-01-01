@@ -140,6 +140,7 @@ app.post('/addToCart', (req, res) => {
 app.put('/updateItemStatus', (req, res) => {
     //console.log(req.body.product_id,'bbb');
     var product_id = req.body.product_id; //Number(req.params.user_id);
+    console.log(req.body.product_id,'pid',req.body.order_id)
     // req.body.status?req.body.status:"Pending"
     var order_id = req.body.order_id;
     try {
