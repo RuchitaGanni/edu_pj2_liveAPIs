@@ -136,11 +136,11 @@ app.post('/addToCart', (req, res) => {
     })
 })
 
-
+//update cart item status
 app.put('/updateItemStatus', (req, res) => {
     //console.log(req.body.product_id,'bbb');
     var product_id = Number(req.body.product_id); //Number(req.params.user_id);
-    console.log(req.body.product_id,'pid',req.body.order_id)
+    console.log(req.body.product_id, 'pid', req.body.order_id)
     // req.body.status?req.body.status:"Pending"
     var order_id = Number(req.body.order_id);
     try {
@@ -158,6 +158,36 @@ app.put('/updateItemStatus', (req, res) => {
         res.send(e);
     }
 })
+
+//update order status after payment 
+app.put('/updateOrder/:orderid', (req, res) => {
+    //console.log(req.body.product_id,'bbb');
+    var orderid = Number(req.params.orderid);
+    var status = req.body.status?req.body.status:"Pending"
+
+    db.collection('orders').updateOne(
+        { orderid: orderid},
+        {
+            $set: {
+                "date":req.body.date,
+                "bank_status":req.body.bank_status,
+                "bank":req.body.bank,
+                "status":status
+            }
+        }
+    )
+    res.send('order status updated');
+
+})
+
+app.delete('/deleteAll', (req, res) => {
+    db.collection('orders').deleteMany({}, (err, result) => {
+        if (err) throw "error" + err;
+        res.send(result)
+    })
+}
+
+)
 //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
 //     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
