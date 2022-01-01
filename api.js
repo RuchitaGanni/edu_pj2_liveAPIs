@@ -139,12 +139,13 @@ app.put('/updateItemStatus',(req,res) => {
     //console.log(req.body.product_id,'bbb');
      var product_id =req.body.product_id; //Number(req.params.user_id);
      var quantity=req.body.quantity;// req.body.status?req.body.status:"Pending"
+     var order_id=req.body.order_id;
      db.collection('cart_list').updateOne(
          {product_id:product_id,status:0},
          {
              $set:{
                  "status":1,
-                 "order_id":1111
+                 "order_id":order_id
              }
          }
      )
