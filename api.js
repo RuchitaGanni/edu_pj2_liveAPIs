@@ -89,19 +89,17 @@ app.put('/updateStatus', (req, res) => {
     //console.log(req.body.product_id,'bbb');
     var product_id = req.body.product_id; //Number(req.params.user_id);
     var quantity = req.body.quantity;// req.body.status?req.body.status:"Pending"
-    try {
-        db.collection('cart_list').updateOne(
-            { product_id: product_id, status: 0 },
-            {
-                $set: {
-                    "quantity": quantity
-                }
+
+    db.collection('cart_list').updateOne(
+        { product_id: product_id, status: 0 },
+        {
+            $set: {
+                "quantity": quantity
             }
-        )
-        res.send('order status updated');
-    } catch (e) {
-        res.send(e);
-    }
+        }
+    )
+    res.send('order status updated');
+
 })
 
 //6.delete order items from list against product_id
@@ -144,16 +142,20 @@ app.put('/updateItemStatus', (req, res) => {
     var product_id = req.body.product_id; //Number(req.params.user_id);
     // req.body.status?req.body.status:"Pending"
     var order_id = req.body.order_id;
-    db.collection('cart_list').updateOne(
-        { product_id: product_id, status: 0 },
-        {
-            $set: {
-                "status": 1,
-                "order_id": order_id
+    try {
+        db.collection('cart_list').updateOne(
+            { product_id: product_id, status: 0 },
+            {
+                $set: {
+                    "status": 1,
+                    "order_id": order_id
+                }
             }
-        }
-    )
-    res.send('order status updated')
+        )
+        res.send('order status updated')
+    } catch (e) {
+        res.send(e);
+    }
 })
 //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
