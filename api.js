@@ -185,9 +185,14 @@ app.delete('/deleteAll', (req, res) => {
         if (err) throw "error" + err;
         res.send(result)
     })
-}
-
-)
+})
+// get all orders against user 
+app.get('/finalOrder', (req, res) => {
+    db.collection('orders').find().sort({ id: -1 }).toArray((err, result) => {
+        if (err) throw err;
+        res.send(result)
+    })
+})
 //mealtypes using projections
 //  app.get('/getMealtypes',(req,res)=>{
 //     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
