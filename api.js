@@ -161,12 +161,13 @@ app.put('/updateItemStatus', (req, res) => {
 
 //update order status after payment 
 app.put('/updateOrder/:orderid', (req, res) => {
+    // console.log(req.params.orderid,'hhhh')
     //console.log(req.body.product_id,'bbb');
     var orderid = Number(req.params.orderid);
     var status = req.body.status?req.body.status:"Pending"
 
     db.collection('orders').updateOne(
-        { orderid: orderid},
+        { orderId: orderid},
         {
             $set: {
                 "date":req.body.date,
@@ -181,7 +182,7 @@ app.put('/updateOrder/:orderid', (req, res) => {
 })
 
 app.delete('/deleteAll', (req, res) => {
-    db.collection('orders').deleteMany({}, (err, result) => {
+    db.collection('cart_list').deleteMany({}, (err, result) => {
         if (err) throw "error" + err;
         res.send(result)
     })
