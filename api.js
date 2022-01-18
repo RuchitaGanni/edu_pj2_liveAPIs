@@ -66,10 +66,10 @@ app.get('/products', (req, res) => {
 })
 
 //3.get main categories
-app.get('/sub_category/:main_category_id', (req, res) => {
-    var main_cid = Number(req.params.main_category_id);
+app.get('/getProducts/:category_id', (req, res) => {
+    var main_cid = Number(req.params.category_id);
 
-    db.collection('sub_category').find({ main_category_id: main_cid }).sort({ id: 1 }).toArray((err, result) => {
+    db.collection('products').find({ category_id: main_cid }).sort({ product_id: 1 }).toArray((err, result) => {
         if (err) throw err;
 
         res.send(result)
