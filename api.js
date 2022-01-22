@@ -54,12 +54,12 @@ app.get('/category', (req, res) => {
 
 //list of products against categories
 
-app.get('/products', (req, res) => {
+app.get('/products/:pid', (req, res) => {
     var query = {};
     if (req.query.category_id) {
         query = { category_id: Number(req.query.category_id) }
     }
-    db.collection('products').find(query).toArray((err, result) => {
+    db.collection('products').find({product_id:req.params.pid}).toArray((err, result) => {
         if (err) throw err;
         res.send(result)
     })
