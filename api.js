@@ -1,5 +1,5 @@
 var exp = require('express');
-var moment =require('moment')
+var moment = require('moment')
 var dotenv = require('dotenv');
 var mongo = require('mongodb');
 var cors = require('cors');
@@ -55,13 +55,13 @@ app.get('/category', (req, res) => {
 //list of products against categories
 
 app.get('/products/:pid', (req, res) => {
-    
-     var query = {};
-     console.log(req.query,'jj',req.params)
+
+    var query = {};
+    console.log(req.query, 'jj', req.params)
     if (req.query.category_id) {
         query = { category_id: Number(req.query.category_id) }
-    }else if(req.params.pid){
-        query = {product_id:Number(req.params.pid)};
+    } else if (req.params.pid) {
+        query = { product_id: Number(req.params.pid) };
     }
     db.collection('products').find(query).toArray((err, result) => {
         if (err) throw err;
@@ -84,8 +84,8 @@ app.get('/getProducts/:category_id', (req, res) => {
 app.post('/saveOrder', (req, res) => {
     const now = moment();
     let aJsDate = JSON.stringify(now.toDate());
-    aJsDate=aJsDate.replace("T"," ").replace("\"","").split(".");
-    req.body['date']=aJsDate[0];
+    aJsDate = aJsDate.replace("T", " ").replace("\"", "").split(".");
+    req.body['date'] = aJsDate[0];
     db.collection('orders').insertOne(req.body, (err, result) => {
         if (err) throw err;
         res.send("order placed");
@@ -167,16 +167,16 @@ app.put('/updateItemStatus', (req, res) => {
 //update order status after payment 
 app.put('/updateOrder/:orderid', (req, res) => {
     var orderid = Number(req.params.orderid);
-    var status = req.body.status?req.body.status:"Pending"
+    var status = req.body.status ? req.body.status : "Pending"
 
     db.collection('orders').updateOne(
-        { orderId: orderid},
+        { orderId: orderid },
         {
             $set: {
-                "date":req.body.date,
-                "bank_status":req.body.bank_status,
-                "bank":req.body.bank,
-                "status":status
+                "date": req.body.date,
+                "bank_status": req.body.bank_status,
+                "bank": req.body.bank,
+                "status": status
             }
         }
     )
@@ -191,21 +191,23 @@ app.delete('/deleteAll', (req, res) => {
     })
 })
 // get all orders against user 
-app.get('/finalOrder', (req, res) => {
-    db.collection('orders').find().sort({ id: -1 }).toArray((err, result) => {
-        if (err) throw err;
-        res.send(result)
-    })
+app.get('/finalOrder/:email', (req, res) => {
+    db.collection('orders')
+        .find({ email: req.params.email, orderType: "grocery" })
+        .sort({ id: -1 }).toArray((err, result) => {
+            if (err) throw err;
+            res.send(result)
+        })
 })
 //api to delete order against order number during failed case:
 
-app.delete('/deleteOneOrder/:order', (req, res)=>{
-    const orderId=Number(req.params.order);
-    db.collection('orders').deleteOne({orderId:orderId}, (err, result) => {
+app.delete('/deleteOneOrder/:order', (req, res) => {
+    const orderId = Number(req.params.order);
+    db.collection('orders').deleteOne({ orderId: orderId }, (err, result) => {
         if (err) throw "error" + err;
-        db.collection('cart_list').updateMany({order_id:orderId},{
-            $set:{
-                status:0
+        db.collection('cart_list').updateMany({ order_id: orderId }, {
+            $set: {
+                status: 0
             }
         })
         res.status(200).send(result)
@@ -216,18 +218,18 @@ app.delete('/deleteOneOrder/:order', (req, res)=>{
 app.put('/updateDelvStatus', (req, res) => {
     console.log(req.query)
     id = Number(req.query.orderNo);
-    let statusMsg="";
-    statusCode=Number(req.query.status);
-    if(statusCode==2){
-        statusMsg="Payment Successful";
-    }if(statusCode==3){
-        statusMsg="Payment Failed";
+    let statusMsg = "";
+    statusCode = Number(req.query.status);
+    if (statusCode == 2) {
+        statusMsg = "Payment Successful";
+    } if (statusCode == 3) {
+        statusMsg = "Payment Failed";
     }
-    if(statusCode==4){
-        statusMsg="Out for Delivery";
+    if (statusCode == 4) {
+        statusMsg = "Out for Delivery";
     }
-    if(statusCode==5){
-        statusMsg="Deliveried";
+    if (statusCode == 5) {
+        statusMsg = "Deliveried";
     }
 
     db.collection('orders').updateOne(
@@ -239,7 +241,7 @@ app.put('/updateDelvStatus', (req, res) => {
             }
         }, (err, result) => {
             if (err) throw err;
-           res.send(result)
+            res.send(result)
 
         }
     )
