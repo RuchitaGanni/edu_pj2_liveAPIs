@@ -55,12 +55,15 @@ app.get('/category', (req, res) => {
 //list of products against categories
 
 app.get('/products/:pid', (req, res) => {
-    console.log(req.params)
-    // var query = {};
-    // if (req.query.category_id) {
-    //     query = { category_id: Number(req.query.category_id) }
-    // }
-    db.collection('products').find({product_id:Number(req.params.pid)}).toArray((err, result) => {
+    
+     var query = {};
+     console.log(req.query,'jj',req.params)
+    if (req.query.category_id) {
+        query = { category_id: Number(req.query.category_id) }
+    }else if(req.params.pid){
+        query = {product_id:Number(req.params.pid)};
+    }
+    db.collection('products').find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result)
     })
@@ -183,7 +186,7 @@ app.put('/updateOrder/:orderid', (req, res) => {
 })
 
 app.delete('/deleteAll', (req, res) => {
-    db.collection('cart_list').deleteMany({}, (err, result) => {
+    db.collection('orders').deleteMany({}, (err, result) => {
         if (err) throw "error" + err;
         res.send(result)
     })
@@ -195,16 +198,20 @@ app.get('/finalOrder', (req, res) => {
         res.send(result)
     })
 })
-//mealtypes using projections
-//  app.get('/getMealtypes',(req,res)=>{
-//     // var projection={"content": 0,_id:0};{projection:{mealtype:1,content:1,_id:0}}
-//     db.collection('mealtypes').find({},{projection:{mealtype:1,content:1,_id:0}}).toArray((err,result) => {
-//         if(err) throw err;
-//         // console.log(result);
-//         res.send(result)
-//     })
+//api to delete order against order number during failed case:
 
-// })
+app.delete('/deleteOneOrder/:order', (req, res)=>{
+    const orderId=Number(req.params.order);
+    db.collection('orders').deleteOne({orderId:orderId}, (err, result) => {
+        if (err) throw "error" + err;
+        db.collection('cart_list').updateMany({order_id:orderId},{
+            $set:{
+                status:0
+            }
+        })
+        res.send(result)
+    })
+})
 
 
 
