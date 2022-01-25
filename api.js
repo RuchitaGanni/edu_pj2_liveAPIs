@@ -1,5 +1,5 @@
 var exp = require('express');
-
+var moment =require('moment')
 var dotenv = require('dotenv');
 var mongo = require('mongodb');
 var cors = require('cors');
@@ -82,6 +82,10 @@ app.get('/getProducts/:category_id', (req, res) => {
 
 //4.insert orders against user 
 app.post('/saveOrder', (req, res) => {
+    const now = moment();
+    let aJsDate = JSON.stringify(now.toDate());
+    aJsDate=aJsDate.replace("T"," ").replace("\"","").split(".");
+    req.body['date']=aJsDate[0];
     db.collection('orders').insertOne(req.body, (err, result) => {
         if (err) throw err;
         res.send("order placed");
@@ -142,10 +146,7 @@ app.post('/addToCart', (req, res) => {
 
 //update cart item status
 app.put('/updateItemStatus', (req, res) => {
-    //console.log(req.body.product_id,'bbb');
     var product_id = Number(req.body.product_id); //Number(req.params.user_id);
-    console.log(req.body.product_id, 'pid', req.body.order_id)
-    // req.body.status?req.body.status:"Pending"
     var order_id = Number(req.body.order_id);
     try {
         db.collection('cart_list').updateOne(
@@ -165,8 +166,6 @@ app.put('/updateItemStatus', (req, res) => {
 
 //update order status after payment 
 app.put('/updateOrder/:orderid', (req, res) => {
-    // console.log(req.params.orderid,'hhhh')
-    //console.log(req.body.product_id,'bbb');
     var orderid = Number(req.params.orderid);
     var status = req.body.status?req.body.status:"Pending"
 
@@ -209,7 +208,7 @@ app.delete('/deleteOneOrder/:order', (req, res)=>{
                 status:0
             }
         })
-        res.send(result)
+        res.status(200).send(result)
     })
 })
 
