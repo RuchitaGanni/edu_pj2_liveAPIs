@@ -213,6 +213,39 @@ app.delete('/deleteOneOrder/:order', (req, res)=>{
     })
 })
 
+//update orders delivery status
+app.put('/updateDelvStatus', (req, res) => {
+    console.log(req.query)
+    id = Number(req.query.orderNo);
+    let statusMsg="";
+    statusCode=Number(req.query.status);
+    if(statusCode==2){
+        statusMsg="Payment Successful";
+    }if(statusCode==3){
+        statusMsg="Payment Failed";
+    }
+    if(statusCode==4){
+        statusMsg="Out for Delivery";
+    }
+    if(statusCode==5){
+        statusMsg="Deliveried";
+    }
+
+    db.collection('orders').updateOne(
+        { orderId: id },
+        {
+            $set: {
+                "date": new Date(),
+                "status": statusMsg
+            }
+        }, (err, result) => {
+            if (err) throw err;
+           res.send(result)
+
+        }
+    )
+})
+
 
 
 /* can comment this server part since included in below mongodb 
