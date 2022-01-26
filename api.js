@@ -123,8 +123,8 @@ app.delete('/deleteOrder/:product_id', (req, res) => {
 //7. get items in cart list table
 app.get('/getOrders', (req, res) => {
     var query = {};
-    if (req.query.product_id) {
-        query = { product_id: Number(req.query.product_id), status: 0 }
+    if (req.query.user) {
+        query = { user: req.query.user, status: 0 }
     } else {
         query = { status: 0 }
     }
@@ -185,7 +185,7 @@ app.put('/updateOrder/:orderid', (req, res) => {
 })
 
 app.delete('/deleteAll', (req, res) => {
-    db.collection('orders').deleteMany({}, (err, result) => {
+    db.collection('cart_list').deleteMany({}, (err, result) => {
         if (err) throw "error" + err;
         res.send(result)
     })
